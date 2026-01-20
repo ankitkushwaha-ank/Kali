@@ -27,7 +27,6 @@ import { displayZoomEye } from './components/apps/zoom-eye';
 import { displayExploitDatabase } from './components/apps/exploit-database';
 import { displayikon } from './components/apps/ikon';
 import { displaybuzzi } from './components/apps/buzzi';
-import { displayProjects } from './components/apps/Projects';
 import { displayAboutankit } from './components/apps/aboutme';
 
 const apps = [
@@ -292,15 +291,6 @@ const apps = [
         desktop_shortcut: false,
         screen: displaybuzzi,
     },
-    // {
-    //     id: "Projects",
-    //     title: "Projects",
-    //     icon: './themes/Flat-Remix-Blue-Dark/system/folder.svg',
-    //     disabled: false,
-    //     favourite: false,
-    //     desktop_shortcut: true,
-    //     screen: displayProjects,
-    // },
     {
         id: "About Me",
         title: "About Me",
