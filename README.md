@@ -58,6 +58,8 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request
 
 
-![Screenshot (371)](https://user-images.githubusercontent.com/60721049/193449920-1c2a99b4-072d-40d2-96d8-2add306a87df.png)
 
-![Screenshot (372)](https://user-images.githubusercontent.com/60721049/193449933-853aa355-d440-4bd7-8b6a-d93a36076969.png)
+
+![Screenshot (371)](./public/images/screenshots/portfolio-ss1.png)
+![Screenshot (372)](./public/images/screenshots/portfolio-ss2.png)
+![Screenshot (373)](./public/images/screenshots/portfolio-ss3.png)
