@@ -169,10 +169,10 @@ export function WindowTopBar(props) {
   return (
     <div
       className="kali-window-title relative flex items-center border-b border-[#14161a] select-none z-40 "
-      style={{ background: '#2b2e34', paddingTop: '1rem', paddingBottom: '0.6rem', paddingLeft: '0.5rem', paddingRight: '0.5rem' }}
+      style={{ background: '#2b2e34', paddingTop: '0.3rem', paddingBottom: '0.3rem', paddingLeft: '0.3rem', paddingRight: '0.5rem' }}
     >
       <div className="flex items-center gap-2 z-10">
-        {props.icon && <img src={props.icon} alt="app" className="h-5 w-5" />}
+        {props.icon && <img src={props.icon} alt="app" className="h-4 w-4" style={{ paddingTop: '0.1rem' }} />}
       </div>
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span className="text-sm text-[#e6e6e6]">{props.title}</span>
@@ -186,7 +186,7 @@ export function WindowTopBar(props) {
 // Close: blue circle with X icon always visible (as per your last request)
 export function WindowEditButtons(props) {
   return (
-    <div className="absolute right-2 top-1.5 flex gap-2 z-50">
+    <div className="absolute right-2 top-1 flex gap-2 z-50">
       <button onClick={props.minimize} title="Minimize" className="group h-4 w-4 rounded-full bg-[#8a8f96] border border-black hover:bg-black transition flex items-center justify-center">
         <img src="./themes/Flat-Remix-Blue-Dark/window/window-minimize-symbolic.svg" alt="min" className="h-3 w-3 opacity-0 group-hover:opacity-100 transition" />
       </button>

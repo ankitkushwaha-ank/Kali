@@ -65,9 +65,9 @@ export default class Navbar extends Component {
             onClick={this.props.showAllApps}
             title="Show Applications"
           >
-            <img src="./images/logos/kali-application-logo.webp" className="h-5" />
+            <img src="./images/logos/application.png" className="h-5" />
           </div>
-
+		<div className="mx-2 text-gray-500">|</div>
           {/* Pinned Apps */}
           {pinned.map((a) => (
             <div
@@ -102,21 +102,28 @@ export default class Navbar extends Component {
           <div className="mx-2 text-gray-500">|</div>
 
           {/* Opened Apps */}
-          {opened.map((a) => (
-            <div
-              key={a.id}
-              onClick={() => this.open(a.id)}
-              className="px-2 h-full flex items-center hover:bg-[#222] cursor-pointer"
-            >
-              <img src={a.icon} className="h-5" />
-            </div>
-          ))}
+			{this.props.openedApps &&
+				this.props.openedApps.map((id, index) => {
+				const app = this.props.apps?.find(a => a.id === id);
+				if (!app) return null;
+
+				return (
+					<div
+					key={index}
+					onClick={() => this.props.openApp(id)}
+					className="px-2 h-full flex items-center hover:bg-[#222] cursor-pointer"
+					title={app.title}
+					>
+					<img src={app.icon} alt={app.title} className="h-5 w-5" />
+					</div>
+				);
+				})}
         </div>
 
         {/* MOBILE LEFT */}
         <div className="flex md:hidden items-center h-full px-3">
           <img
-            src="./images/logos/kali-application-logo.webp"
+            src="./images/logos/application.png"
             className="h-5 cursor-pointer"
             onClick={this.props.showAllApps}
           />
@@ -156,18 +163,21 @@ export default class Navbar extends Component {
           >
             <Status />
             <StatusCard
-              shutDown={this.props.shutDown}
-              lockScreen={this.props.lockScreen}
-              visible={this.state.status_card}
-              toggleVisible={() => this.setState({ status_card: false })}
-            />
+						shutDown={this.props.shutDown}
+						lockScreen={this.props.lockScreen}
+						visible={this.state.status_card}
+						toggleVisible={() => {
+							// this prop is used in statusCard component in handleClickOutside callback using react-onclickoutside
+							this.setState({ status_card: false });
+						}}
+					/>
           </div>
 
           {/* Time Desktop */}
           <div className="hidden md:block px-3 hover:bg-[#222]">
             <Clock />
           </div>
-
+			<div className="mx-2 text-gray-500">|</div>
           {/* Lock & Power — Desktop Only */}
           <div
             onClick={this.props.lockScreen}

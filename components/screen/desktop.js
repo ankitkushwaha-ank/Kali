@@ -4,6 +4,7 @@ import SideBar from './side_bar';
 import apps from '../../apps.config';
 import Window from '../base/window';
 import KaliApp from '../base/kali_app';
+import Navbar from '../screen/navbar';
 import AllApplications from '../screen/all-applications'
 import DesktopMenu from '../context menus/desktop-menu';
 import DefaultMenu from '../context menus/default';
@@ -258,6 +259,7 @@ export class Desktop extends Component {
 
                 const props = {
                     title: app.title,
+                    icon: app.icon,
                     id: app.id,
                     screen: app.screen,
                     addFolder: this.addToDesktop,
@@ -490,12 +492,36 @@ export class Desktop extends Component {
                     <div onClick={removeCard} className="w-1/2 px-4 py-2 border border-gray-900 border-opacity-50 hover:bg-ub-warm-grey hover:bg-opacity-10 hover:border-opacity-50">Cancel</div>
                 </div>
             </div>
+            
         );
     }
 
     render() {
         return (
             <div className={" h-full w-full flex flex-col items-end justify-start content-start flex-wrap-reverse pt-8 bg-transparent relative overflow-hidden overscroll-none window-parent"}>
+
+                {/* <Navbar
+                openApp={this.openApp}
+                showAllApps={this.showAllApps}
+                lockScreen={this.props.lockScreen}
+                shutDown={this.props.shutDown}
+                switchWorkspace={this.switchWorkspace}
+                openedApps={this.app_stack}
+                apps={apps}
+                /> */}
+
+                <Navbar
+                openApp={this.openApp}
+                showAllApps={this.showAllApps}
+                switchWorkspace={this.switchWorkspace}
+                openedApps={this.app_stack}
+                apps={apps}
+                lockScreen={this.props.lockScreen}
+                shutDown={this.props.shutDown}
+                />
+
+
+
 
                 {/* Window Area */}
                 <div className="absolute h-full w-full bg-transparent" data-context="desktop-area">
@@ -541,5 +567,6 @@ export class Desktop extends Component {
         )
     }
 }
+
 
 export default Desktop

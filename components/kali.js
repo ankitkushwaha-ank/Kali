@@ -119,7 +119,11 @@ export default class Kali extends Component {
 					turnOn={this.turnOn}
 				/>
 				<Navbar lockScreen={this.lockScreen} shutDown={this.shutDown} />
-				<Desktop bg_image_name={this.state.bg_image_name} changeBackgroundImage={this.changeBackgroundImage} />
+				<Desktop 
+				bg_image_name={this.state.bg_image_name} 
+				changeBackgroundImage={this.changeBackgroundImage} 
+				lockScreen={this.lockScreen}
+				shutDown={this.shutDown}/>
 			</div>
 		);
 	}
