@@ -50,7 +50,7 @@ export class Neofetch extends Component {
                     <div className="flex">
                     <div className=" text-ubt-blue">└─$ </div> 
                     <div className="p-1"> <pre>                                              
-        ' ..............                       ali@kali     <br/>
+        ' ..............                       kali@kali      <br/>
         '       ..,;:ccc,.                     --------     <br/>
         '         ......''';lxO.                            <br/>
         '  .....''''..........,:ld;                         <br/>

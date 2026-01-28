@@ -93,7 +93,7 @@ export class Gedit extends Component {
                     (this.state.sending
                         ?
                         <div className="flex justify-center items-center animate-pulse h-full w-full bg-gray-400 bg-opacity-30 absolute top-0 left-0">
-                            <img className={" w-8 absolute animate-spin"} src="./themes/Flat-Remix-Blue-Dark/status/process-working-symbolic.svg" alt="Kali Process Symbol" />
+                            <img className={" w-8 absolute animate-spin"} src="./themes/status/open-mail_943679.png" alt="Kali Process Symbol" />
                         </div>
                         : null
                     )
