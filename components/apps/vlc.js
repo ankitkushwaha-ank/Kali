@@ -124,7 +124,7 @@ const Vlc = (props) => {
           }}
         />
         
-        {/* Play/Pause Center Indicator (Mobile/Click) */}
+        {/* Play/Pause Center Indicator (Mobile/Click)  */}
         {!playing && (
             <div className="z-20 p-8 bg-black/40 backdrop-blur-md rounded-full border border-white/10 scale-125 md:scale-150 animate-in fade-in zoom-in-75 duration-300">
                 <Play size={48} fill="white" className="text-white ml-2" />
