@@ -13,10 +13,10 @@ export class Terminal extends Component {
         this.commands_index = -1;
         this.child_directories = {
             root: [ "projects", "personal-documents", "skills", "languages", "interests"],
-            skills: ["Front-end development", "React.js", "jQuery", "Flutter", "Laravel", "SQL", "Firebase"],
-            projects: ["ali-personal-portfolio", "synonyms-list-react", "economist.com-unlocked", "Improve-Codeforces", "flutter-banking-app", "Meditech-Healthcare"],
-            interests: ["Software Engineering", "Sys Admin", "Computer Vision"],
-            languages: ["Javascript", "C++", "Java", "Dart"],
+            skills: ["Front-end development","Back-end development", "React.js", "Node.js", "Django", "Laravel", "SQL", "Firebase","PHP", "MONGODB", "Git", "Docker", "Linux", "Networking", "Cyber Security", "AI/ML"],
+            projects: ["kali-portfolio", "Ecomorce-website", "Ikon-your_local_shop", "Buzzi-Social_media_app", "IITP-Companion", "Indegenius-mapping_app"],
+            interests: ["Software Engineering", "Sys Admin", "Cyber Security", "AI/ML", "IoT", "Blockchain"],
+            languages: ["Javascript", "Python", "MYSQL", "PHP", "HTML", "CSS"],
         };
         this.state = {
             terminal: [],
