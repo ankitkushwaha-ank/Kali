@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BootingScreen from './screen/booting_screen';
 import Desktop from './screen/desktop';
 import LockScreen from './screen/lock_screen';
-import Navbar from './screen/navbar';
+import RecruiterMode from './screen/recruiter_mode';
 import ReactGA from 'react-ga';
 
 export default class Kali extends Component {
@@ -12,7 +12,8 @@ export default class Kali extends Component {
 			screen_locked: false,
 			bg_image_name: 'wall-1',
 			booting_screen: true,
-			shutDownScreen: false
+			shutDownScreen: false,
+			brightness: 100
 		};
 	}
 
@@ -31,6 +32,11 @@ export default class Kali extends Component {
 		let bg_image_name = localStorage.getItem('bg-image');
 		if (bg_image_name !== null && bg_image_name !== undefined) {
 			this.setState({ bg_image_name });
+		}
+
+		let brightness = localStorage.getItem('brightness');
+		if (brightness !== null && brightness !== undefined && !isNaN(Number(brightness))) {
+			this.setState({ brightness: Number(brightness) });
 		}
 
 		let booting_screen = localStorage.getItem('booting_screen');
@@ -85,6 +91,11 @@ export default class Kali extends Component {
 		localStorage.setItem('bg-image', img_name);
 	};
 
+	changeBrightness = (value) => {
+		this.setState({ brightness: value });
+		localStorage.setItem('brightness', value);
+	};
+
 	shutDown = () => {
 		ReactGA.pageview('/switch-off');
 		ReactGA.event({
@@ -107,7 +118,11 @@ export default class Kali extends Component {
 
 	render() {
 		return (
-			<div className="w-screen h-screen overflow-hidden" id="monitor-screen">
+			<div
+				className="w-screen h-screen overflow-hidden"
+				id="monitor-screen"
+				style={{ filter: `brightness(${this.state.brightness}%)`, transition: 'filter 150ms linear' }}
+			>
 				<LockScreen
 					isLocked={this.state.screen_locked}
 					bgImgName={this.state.bg_image_name}
@@ -118,12 +133,14 @@ export default class Kali extends Component {
 					isShutDown={this.state.shutDownScreen}
 					turnOn={this.turnOn}
 				/>
-				<Navbar lockScreen={this.lockScreen} shutDown={this.shutDown} />
 				<Desktop 
 				bg_image_name={this.state.bg_image_name} 
 				changeBackgroundImage={this.changeBackgroundImage} 
+				brightness={this.state.brightness}
+				changeBrightness={this.changeBrightness}
 				lockScreen={this.lockScreen}
 				shutDown={this.shutDown}/>
+				<RecruiterMode />
 			</div>
 		);
 	}

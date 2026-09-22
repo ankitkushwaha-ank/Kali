@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SideBarApp from '../base/side_bar_app';
 
 let renderApps = (props) => {
@@ -14,6 +14,21 @@ let renderApps = (props) => {
 
 export default function SideBar(props) {
 
+    const [isTouch, setIsTouch] = useState(false);
+    const [isMobileViewport, setIsMobileViewport] = useState(false);
+    const [tapRevealed, setTapRevealed] = useState(false);
+
+    useEffect(() => {
+        // Detect touch devices once on mount — hover-based reveal doesn't work
+        // reliably on touch screens, so those devices get a tap-to-toggle strip instead.
+        setIsTouch(typeof window !== 'undefined' && (('ontouchstart' in window) || navigator.maxTouchPoints > 0));
+
+        const checkViewport = () => setIsMobileViewport(window.innerWidth < 640);
+        checkViewport();
+        window.addEventListener('resize', checkViewport);
+        return () => window.removeEventListener('resize', checkViewport);
+    }, []);
+
     function showSideBar() {
         props.hideSideBar(null, false);
     }
@@ -24,9 +39,26 @@ export default function SideBar(props) {
         }, 2000);
     }
 
+    function toggleSideBarTap() {
+        const next = !tapRevealed;
+        setTapRevealed(next);
+        props.hideSideBar(null, !next);
+    }
+
+    // Any app window open at all, on a phone-sized viewport, checked against
+    // the widths tracked in Desktop.state.closed_windows.
+    const hasOpenWindow = Object.values(props.closed_windows || {}).some(closed => closed === false);
+    // On mobile the desktop's drag-based overlap detection never fires (windows
+    // open near-fullscreen instead of being dragged over the dock), so the dock
+    // would otherwise stay visible and sit on top of the open app. Force it
+    // hidden on mobile whenever a window is open and the user hasn't tapped to
+    // reveal it, instead of relying on that desktop-oriented heuristic.
+    const forceHiddenOnMobile = isMobileViewport && hasOpenWindow && !tapRevealed;
+    const hidden = props.hide || forceHiddenOnMobile;
+
     return (
         <>
-            <div className={(props.hide ? " -translate-x-full " : "") + " absolute transform duration-300 select-none z-40 left-0 top-40 h-full w-auto h-auto flex flex-col justify-start items-center border-black border-opacity-60"}>
+            <div className={(hidden ? " -translate-x-full " : "") + " absolute transform duration-300 select-none z-40 left-0 top-40 h-full w-auto h-auto flex flex-col justify-start items-center border-black border-opacity-60"}>
                 {
                     (
                         Object.keys(props.closed_windows).length !== 0
@@ -36,7 +68,16 @@ export default function SideBar(props) {
                 }
                 <AllApps showApps={props.showAllApps} />
             </div>
-            <div onMouseEnter={showSideBar} onMouseLeave={hideSideBar} className={"w-1 h-full absolute top-0 left-0 bg-transparent z-50"}></div>
+            {isTouch ? (
+                <div
+                    onClick={toggleSideBarTap}
+                    aria-label="Toggle app dock"
+                    title="Tap to show apps"
+                    className="w-3 h-24 absolute top-1/2 -translate-y-1/2 left-0 bg-white bg-opacity-10 rounded-r-md z-50"
+                ></div>
+            ) : (
+                <div onMouseEnter={showSideBar} onMouseLeave={hideSideBar} className={"w-1 h-full absolute top-0 left-0 bg-transparent z-50"}></div>
+            )}
         </>
     )
 }

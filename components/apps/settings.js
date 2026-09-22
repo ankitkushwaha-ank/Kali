@@ -30,7 +30,14 @@ import {
 
 export function Settings(props) {
     const [activeTab, setActiveTab] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? null : 'background');
-    const [brightness, setBrightness] = useState(85);
+    // Brightness is a controlled prop from Kali (persisted to localStorage and
+    // applied as a CSS filter on the whole screen) — fall back to local state
+    // only if the app is somehow rendered without those props wired up.
+    const brightness = props.brightness !== undefined ? props.brightness : 100;
+    const setBrightness = (value) => {
+        const num = Number(value);
+        if (props.changeBrightness) props.changeBrightness(num);
+    };
     const [wifiEnabled, setWifiEnabled] = useState(true);
     const [bluetoothEnabled, setBluetoothEnabled] = useState(true);
     const [dnd, setDnd] = useState(false);
@@ -248,6 +255,8 @@ export function Settings(props) {
                             </div>
                             <input 
                                 type="range" 
+                                min="20"
+                                max="100"
                                 value={brightness} 
                                 onChange={(e) => setBrightness(e.target.value)}
                                 className="w-full h-1.5 bg-white/10 rounded-full accent-blue-500 appearance-none cursor-pointer" 

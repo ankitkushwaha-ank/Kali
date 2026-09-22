@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import ReactGA from 'react-ga';
 import emailjs from '@emailjs/browser';
+import { Mail, Linkedin, Github, Instagram, GraduationCap } from 'lucide-react';
+
+const CONTACT = {
+    email: "ankitkushwaha.ank@gmail.com",
+    collegeEmail: "ankit_24a12res854@iitp.ac.in",
+    linkedin: "https://www.linkedin.com/in/ankitkushwaha-ank/",
+    github: "https://github.com/ankitkushwaha-ank/",
+    instagram: "https://www.instagram.com/ankitkushwaha.ank/"
+};
 
 export class Gedit extends Component {
 
@@ -76,6 +85,28 @@ export class Gedit extends Component {
                 </div>
                 <div className="relative flex-grow flex flex-col bg-ub-gedit-dark font-normal windowMainScreen">
                     <div className="absolute left-0 top-0 h-full px-2 bg-ub-gedit-darker"></div>
+
+                    {/* Direct contact details — reach me without waiting on the form */}
+                    <div className="flex flex-wrap items-center gap-3 pl-6 pr-3 py-2 border-b border-white border-opacity-10 text-xs">
+                        <a href={`mailto:${CONTACT.email}`} title="Email" className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors">
+                            <Mail size={13} /> {CONTACT.email}
+                        </a>
+                        <span className="text-gray-600">|</span>
+                        <a href={`mailto:${CONTACT.collegeEmail}`} title="College Email" className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors">
+                            <GraduationCap size={13} /> IIT Patna Mail
+                        </a>
+                        <span className="text-gray-600 hidden sm:inline">|</span>
+                        <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" title="LinkedIn" className="flex items-center gap-1.5 text-gray-400 hover:text-blue-400 transition-colors">
+                            <Linkedin size={13} /> LinkedIn
+                        </a>
+                        <a href={CONTACT.github} target="_blank" rel="noreferrer" title="GitHub" className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors">
+                            <Github size={13} /> GitHub
+                        </a>
+                        <a href={CONTACT.instagram} target="_blank" rel="noreferrer" title="Instagram" className="flex items-center gap-1.5 text-gray-400 hover:text-pink-400 transition-colors">
+                            <Instagram size={13} /> Instagram
+                        </a>
+                    </div>
+
                     <div className="relative">
                         <input id="sender-name" className=" w-full text-ubt-gedit-orange focus:bg-ub-gedit-light outline-none font-medium text-sm pl-6 py-0.5 bg-transparent" placeholder="Your Email / Name :" spellCheck="false" autoComplete="off" type="text" />
                         <span className="absolute left-1 top-1/2 transform -translate-y-1/2 font-bold light text-sm text-ubt-gedit-blue">1</span>

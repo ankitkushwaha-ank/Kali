@@ -489,4 +489,3 @@ export const Spotify = (props) => <SpotifyApp {...props} />;
 export default Spotify;
 
 export const displaySpotify = () => <Spotify />;
-export const displayAboutankit = () => <Spotify />;

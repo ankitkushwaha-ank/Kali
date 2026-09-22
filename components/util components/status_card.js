@@ -25,7 +25,6 @@ export class StatusCard extends Component {
 		this.wrapperRef = React.createRef();
 		this.state = {
 			sound_level: 75, // better of setting default values from localStorage
-			brightness_level: 100 // setting default value to 100 so that by default its always full.
 		};
 	}
 	handleClickOutside = () => {
@@ -34,18 +33,19 @@ export class StatusCard extends Component {
 	componentDidMount() {
 		this.setState({
 			sound_level: localStorage.getItem('sound-level') || 75,
-			brightness_level: localStorage.getItem('brightness-level') || 100
-		}, () => {
-			document.getElementById('monitor-screen').style.filter = `brightness(${3 / 400 * this.state.brightness_level +
-				0.25})`;
 		})
 	}
 
+	// Brightness is a single source of truth owned by Kali (components/kali.js),
+	// persisted under the 'brightness' localStorage key and applied once as a
+	// CSS filter on #monitor-screen. This slider is just another control surface
+	// for that same shared state — it no longer manipulates the DOM directly or
+	// keeps its own separate 'brightness-level' key (that was a second,
+	// competing brightness mechanism that fought with the Settings app's slider).
 	handleBrightness = (e) => {
-		this.setState({ brightness_level: e.target.value });
-		localStorage.setItem('brightness-level', e.target.value);
-		// the function below inside brightness() is derived from a linear equation such that at 0 value of slider brightness still remains 0.25 so that it doesn't turn black.
-		document.getElementById('monitor-screen').style.filter = `brightness(${3 / 400 * e.target.value + 0.25})`; // Using css filter to adjust the brightness in the root div.
+		// Clamp to a 20% floor so the screen never goes fully black/unusable.
+		const value = Math.max(20, Number(e.target.value));
+		if (this.props.changeBrightness) this.props.changeBrightness(value);
 	};
 
 	handleSound = (e) => {
@@ -84,7 +84,7 @@ export class StatusCard extends Component {
 						onChange={this.handleBrightness}
 						className="kali-slider w-2/3"
 						name="brightness_range"
-						value={this.state.brightness_level}
+						value={this.props.brightness !== undefined ? this.props.brightness : 100}
 					/>
 				</div>
 				<div className="w-64 flex content-center justify-center">

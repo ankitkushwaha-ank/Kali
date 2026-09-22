@@ -28,6 +28,7 @@ import { displayExploitDatabase } from './components/apps/exploit-database';
 import { displayikon } from './components/apps/ikon';
 import { displaybuzzi } from './components/apps/buzzi';
 import { displayAboutankit } from './components/apps/aboutme';
+import { displayVakmann } from './components/apps/vakmann';
 
 const apps = [
     {
@@ -292,11 +293,20 @@ const apps = [
         screen: displaybuzzi,
     },
     {
-        id: "About Me",
+        id: "vakmann",
+        title: "Vakmann",
+        icon: './images/logos/vakmann.png',
+        disabled: false,
+        favourite: false,
+        desktop_shortcut: true,
+        screen: displayVakmann,
+    },
+    {
+        id: "about-me",
         title: "About Me",
         icon: './themes/Flat-Remix-Blue-Dark/apps/hacker.png',
         disabled: false,
-        favourite: false,
+        favourite: true,
         desktop_shortcut: true,
         screen: displayAboutankit,
     },

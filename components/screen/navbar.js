@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Clock from '../util components/clock';
 import Status from '../util components/status';
 import StatusCard from '../util components/status_card';
+import ApplicationsMenu from './applications_menu';
+import { Briefcase } from 'lucide-react';
 
 export default class Navbar extends Component {
   constructor() {
@@ -10,7 +12,7 @@ export default class Navbar extends Component {
       status_card: false,
       cpuBars: Array(18).fill(10),
       cpuValue: 20,
-      activeWs: 1,
+      appsMenuOpen: false,
     };
   }
 
@@ -33,8 +35,19 @@ export default class Navbar extends Component {
   };
 
   switchWs = (n) => {
-    this.setState({ activeWs: n });
     this.props.switchWorkspace && this.props.switchWorkspace(n);
+  };
+
+  openRecruiterMode = () => {
+    window.dispatchEvent(new Event('open-recruiter-mode'));
+  };
+
+  toggleAppsMenu = () => {
+    this.setState({ appsMenuOpen: !this.state.appsMenuOpen });
+  };
+
+  closeAppsMenu = () => {
+    this.setState({ appsMenuOpen: false });
   };
 
   render() {
@@ -58,26 +71,38 @@ export default class Navbar extends Component {
         }}
       >
         {/* LEFT DESKTOP */}
-        <div className="hidden md:flex items-center h-full">
-          {/* Kali Logo → Show Applications */}
+        <div className="hidden md:flex items-center h-full relative">
+          {/* Kali Logo → Applications Menu (categorized dropdown) */}
           <div
             className="px-3 h-full flex items-center hover:bg-[#222] cursor-pointer"
-            onClick={this.props.showAllApps}
-            title="Show Applications"
+            onClick={this.toggleAppsMenu}
+            title="Applications"
           >
             <img src="./images/logos/application.png" className="h-5" />
           </div>
+          {this.state.appsMenuOpen && (
+            <ApplicationsMenu
+              apps={this.props.apps || []}
+              openApp={this.open}
+              onClose={this.closeAppsMenu}
+              onOpenSearch={this.props.showAllApps}
+            />
+          )}
 		<div className="mx-2 text-gray-500">|</div>
           {/* Pinned Apps */}
-          {pinned.map((a) => (
-            <div
-              key={a.id}
-              onClick={() => this.open(a.id)}
-              className="px-2 h-full flex items-center hover:bg-[#222] cursor-pointer"
-            >
-              <img src={a.icon} className="h-5" />
-            </div>
-          ))}
+          {pinned.map((a) => {
+            const appInfo = (this.props.apps || []).find(app => app.id === a.id);
+            return (
+              <div
+                key={a.id}
+                onClick={() => this.open(a.id)}
+                title={appInfo ? appInfo.title : a.id}
+                className="px-2 h-full flex items-center hover:bg-[#222] cursor-pointer"
+              >
+                <img src={a.icon} className="h-5" alt={appInfo ? appInfo.title : a.id} />
+              </div>
+            );
+          })}
 
           <div className="mx-2 text-gray-500">|</div>
 
@@ -86,11 +111,12 @@ export default class Navbar extends Component {
             <div
               key={n}
               onClick={() => this.switchWs(n)}
+              title={`Workspace ${n}`}
               className="px-2 cursor-pointer"
               style={{
-                color: this.state.activeWs === n ? '#4ea1ff' : '#ccc',
+                color: this.props.activeWorkspace === n ? '#4ea1ff' : '#ccc',
                 borderBottom:
-                  this.state.activeWs === n
+                  this.props.activeWorkspace === n
                     ? '2px solid #4ea1ff'
                     : '2px solid transparent',
               }}
@@ -125,6 +151,7 @@ export default class Navbar extends Component {
           <img
             src="./images/logos/application.png"
             className="h-5 cursor-pointer"
+            title="Applications"
             onClick={this.props.showAllApps}
           />
         </div>
@@ -134,11 +161,21 @@ export default class Navbar extends Component {
           <Clock />
         </div>
 
-        {/* RIGHT */}
-        <div className="flex items-center h-full">
-          {/* CPU Graph — Desktop Only */}
+        {/* RIGHT — DESKTOP */}
+        <div className="hidden md:flex items-center h-full flex-shrink-0">
+          {/* Recruiter Mode / Quick Resume toggle */}
           <div
-            className="hidden md:flex items-end h-4 mx-3 gap-[1px]"
+            onClick={this.openRecruiterMode}
+            title="Open Recruiter Mode — quick resume view"
+            className="flex items-center gap-1.5 mx-2 px-3 py-1 h-6 rounded-full bg-blue-600 hover:bg-blue-500 text-white cursor-pointer transition-colors shadow-[0_0_10px_rgba(37,99,235,0.5)]"
+          >
+            <Briefcase size={13} />
+            <span className="text-[11px] font-bold whitespace-nowrap">Recruiter Mode</span>
+          </div>
+
+          {/* CPU Graph */}
+          <div
+            className="flex items-end h-4 mx-3 gap-[1px]"
             title={`CPU Usage: ${this.state.cpuValue}%`}
           >
             {this.state.cpuBars.map((h, i) => (
@@ -165,6 +202,8 @@ export default class Navbar extends Component {
             <StatusCard
 						shutDown={this.props.shutDown}
 						lockScreen={this.props.lockScreen}
+						brightness={this.props.brightness}
+						changeBrightness={this.props.changeBrightness}
 						visible={this.state.status_card}
 						toggleVisible={() => {
 							// this prop is used in statusCard component in handleClickOutside callback using react-onclickoutside
@@ -173,24 +212,56 @@ export default class Navbar extends Component {
 					/>
           </div>
 
-          {/* Time Desktop */}
-          <div className="hidden md:block px-3 hover:bg-[#222]">
+          {/* Time */}
+          <div className="px-3 hover:bg-[#222]">
             <Clock />
           </div>
-			<div className="mx-2 text-gray-500">|</div>
-          {/* Lock & Power — Desktop Only */}
+          <div className="mx-2 text-gray-500">|</div>
+          {/* Lock & Power */}
           <div
             onClick={this.props.lockScreen}
-            className="hidden md:block px-3 hover:bg-[#222] cursor-pointer"
+            title="Lock Screen"
+            className="px-3 hover:bg-[#222] cursor-pointer"
           >
-            <img src="./themes/Flat-Remix-Blue-Dark/system/lock.png" className="h-4" />
+            <img src="./themes/Flat-Remix-Blue-Dark/system/lock.png" className="h-4" alt="Lock screen" />
           </div>
 
           <div
             onClick={this.props.shutDown}
-            className="hidden md:block px-3 hover:bg-[#222] cursor-pointer"
+            title="Shut Down"
+            className="px-3 hover:bg-[#222] cursor-pointer"
           >
-            <img src="./themes/Flat-Remix-Blue-Dark/system/power.png" className="h-4" />
+            <img src="./themes/Flat-Remix-Blue-Dark/system/power.png" className="h-4" alt="Shut down" />
+          </div>
+        </div>
+
+        {/* RIGHT — MOBILE (compact: recruiter icon, status/lock/power dropdown, clock already shown center) */}
+        <div className="flex md:hidden items-center h-full flex-shrink-0 pr-1">
+          <div
+            onClick={this.openRecruiterMode}
+            title="Recruiter Mode"
+            className="flex items-center justify-center h-6 w-6 rounded-full bg-blue-600 text-white cursor-pointer flex-shrink-0"
+          >
+            <Briefcase size={12} />
+          </div>
+
+          <div
+            id="status-bar-mobile"
+            tabIndex="0"
+            onFocus={() => this.setState({ status_card: true })}
+            className="relative px-2 h-full flex items-center flex-shrink-0"
+          >
+            <Status />
+            <StatusCard
+						shutDown={this.props.shutDown}
+						lockScreen={this.props.lockScreen}
+						brightness={this.props.brightness}
+						changeBrightness={this.props.changeBrightness}
+						visible={this.state.status_card}
+						toggleVisible={() => {
+							this.setState({ status_card: false });
+						}}
+					/>
           </div>
         </div>
       </div>

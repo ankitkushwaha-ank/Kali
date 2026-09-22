@@ -32,6 +32,13 @@ export class Desktop extends Component {
                 default: false,
             },
             showNameBar: false,
+            // Real XFCE-style virtual workspaces: each open window is pinned to
+            // whichever workspace was active when it was opened. Switching
+            // workspaces just changes which windows are visible/interactive —
+            // windows stay mounted so app state (terminal history, audio, etc.)
+            // isn't lost when you switch away and back.
+            activeWorkspace: 1,
+            window_workspace: {},
         }
     }
 
@@ -257,6 +264,12 @@ export class Desktop extends Component {
         apps.forEach((app, index) => {
             if (this.state.closed_windows[app.id] === false) {
 
+                // Windows pinned to a workspace other than the active one stay
+                // mounted (so their internal state survives) but are hidden and
+                // non-interactive — matching real virtual-desktop behaviour.
+                const windowWorkspace = this.state.window_workspace[app.id] || 1;
+                const onActiveWorkspace = windowWorkspace === this.state.activeWorkspace;
+
                 const props = {
                     title: app.title,
                     icon: app.icon,
@@ -272,6 +285,9 @@ export class Desktop extends Component {
                     minimized: this.state.minimized_windows[app.id],
                     changeBackgroundImage: this.props.changeBackgroundImage,
                     bg_image_name: this.props.bg_image_name,
+                    brightness: this.props.brightness,
+                    changeBrightness: this.props.changeBrightness,
+                    onOtherWorkspace: !onActiveWorkspace,
                 }
 
                 windowsJsx.push(
@@ -362,9 +378,10 @@ export class Desktop extends Component {
             // focus this app's window
             this.focus(objId);
 
-            // set window's last position
-            var r = document.querySelector("#" + objId);
-            r.style.transform = `translate(${r.style.getPropertyValue("--window-transform-x")},${r.style.getPropertyValue("--window-transform-y")}) scale(1)`;
+            // set window's last position (getElementById avoids CSS-selector
+            // parsing issues that querySelector('#'+id) has with ids containing spaces)
+            var r = document.getElementById(objId);
+            if (r) r.style.transform = `translate(${r.style.getPropertyValue("--window-transform-x")},${r.style.getPropertyValue("--window-transform-y")}) scale(1)`;
 
             // tell childs that his app has been not minimised
             let minimized_windows = this.state.minimized_windows;
@@ -405,10 +422,20 @@ export class Desktop extends Component {
             setTimeout(() => {
                 favourite_apps[objId] = true; // adds opened app to sideBar
                 closed_windows[objId] = false; // openes app's window
-                this.setState({ closed_windows, favourite_apps, allAppsView: false }, this.focus(objId));
+                let window_workspace = { ...this.state.window_workspace, [objId]: this.state.activeWorkspace };
+                this.setState({ closed_windows, favourite_apps, allAppsView: false, window_workspace }, this.focus(objId));
                 this.app_stack.push(objId);
             }, 200);
         }
+    }
+
+    switchWorkspace = (workspaceNumber) => {
+        if (workspaceNumber === this.state.activeWorkspace) return;
+        this.setState({ activeWorkspace: workspaceNumber });
+        ReactGA.event({
+            category: `Workspace`,
+            action: `Switched to workspace ${workspaceNumber}`
+        });
     }
 
     closeApp = (objId) => {
@@ -500,24 +527,17 @@ export class Desktop extends Component {
         return (
             <div className={" h-full w-full flex flex-col items-end justify-start content-start flex-wrap-reverse pt-8 bg-transparent relative overflow-hidden overscroll-none window-parent"}>
 
-                {/* <Navbar
-                openApp={this.openApp}
-                showAllApps={this.showAllApps}
-                lockScreen={this.props.lockScreen}
-                shutDown={this.props.shutDown}
-                switchWorkspace={this.switchWorkspace}
-                openedApps={this.app_stack}
-                apps={apps}
-                /> */}
-
                 <Navbar
                 openApp={this.openApp}
                 showAllApps={this.showAllApps}
                 switchWorkspace={this.switchWorkspace}
+                activeWorkspace={this.state.activeWorkspace}
                 openedApps={this.app_stack}
                 apps={apps}
                 lockScreen={this.props.lockScreen}
                 shutDown={this.props.shutDown}
+                brightness={this.props.brightness}
+                changeBrightness={this.props.changeBrightness}
                 />
 
 
@@ -543,8 +563,13 @@ export class Desktop extends Component {
                     isMinimized={this.state.minimized_windows}
                     openAppByAppId={this.openApp} />
 
-                {/* Desktop Apps */}
-                {this.renderDesktopApps()}
+                {/* Desktop Apps — clean vertical grid on mobile (icons never clip offscreen), right-aligned columns on desktop */}
+                <div className="grid grid-cols-4 gap-1 content-start absolute top-8 left-0 right-0 px-2 z-10 sm:hidden">
+                    {this.renderDesktopApps()}
+                </div>
+                <div className="hidden sm:flex sm:flex-col sm:items-end sm:justify-start sm:content-start sm:flex-wrap-reverse sm:h-full sm:w-full sm:absolute sm:top-8 sm:left-0">
+                    {this.renderDesktopApps()}
+                </div>
 
                 {/* Context Menus */}
                 <DesktopMenu active={this.state.context_menus.desktop} openApp={this.openApp} addNewFolder={this.addNewFolder} />
