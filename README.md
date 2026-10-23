@@ -1,65 +1,121 @@
-# Web simulation of Kali Linux
+ <div align="center">
 
-This is a personal portfolio website of theme Kali Linux, made using React.js & tailwind CSS.
-If you want to edit this. Clone this project and edit the files in `/src/components`.
+<img src="./public/images/logos/logo.png" alt="Kali Linux Portfolio Logo" width="76" />
 
-To run this on localhost
-type `npm start` and when u are done coding type `npm run build` to build your app.
+# KALI LINUX PORTFOLIO
 
-_NOTE: if you have yarn just replace `npm start` and `npm run build` with `yarn start` and `yarn build`._
+**CYBERSECURITY · DEVELOPMENT · CREATIVITY**
 
+A developer portfolio with a terminal-inspired interface.
 
-### To make the contact form work
+<br />
 
-- Create a account in [emailjs](https://www.emailjs.com/) create also new Outlook or Gmail account to be able
-  to send email.
-- Create a new service, select and log in to your newly created outlook or gmail account on EmailJS.
-- Go back to the dashboard and get the Service ID copy it.
-- Create a .env file in your root folder and put
+<a href="https://portfolio-kali.vercel.app/">
+  <img src="https://img.shields.io/badge/EXPLORE_LIVE_PORTFOLIO-1677E8?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore live portfolio" />
+</a>
 
+<br /><br />
+
+<img src="https://img.shields.io/badge/REACT-111827?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
+<img src="https://img.shields.io/badge/TAILWIND_CSS-111827?style=flat-square&logo=tailwindcss&logoColor=38BDF8" alt="Tailwind CSS" />
+<img src="https://img.shields.io/badge/DEPLOYED_ON-111827?style=flat-square&logo=vercel&logoColor=FFFFFF" alt="Vercel" />
+
+</div>
+
+---
+
+## <code>01</code> — THE EXPERIENCE
+
+<table>
+<tr>
+<td bgcolor="#0d1117">
+
+<p>
+  <sub><strong>~/portfolio/preview</strong></sub>
+  &nbsp; · &nbsp;
+  <sub>MAIN INTERFACE</sub>
+</p>
+
+<img src="./public/images/screenshots/portfolio-ss1.png" alt="Kali Linux inspired developer portfolio" width="100%" />
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+
+*A dark interface. A developer-first aesthetic. A portfolio built around code.*
+
+</div>
+
+---
+
+## <code>02</code> — ABOUT ME
+
+I'm a Computer Science and Data Analytics student at **IIT Patna**, passionate about programming, cybersecurity, and building useful technology.
+
+I enjoy exploring how systems work, developing web applications, and learning about ethical hacking and software security.
+
+My goal is to combine creative development with a security-first mindset to build practical, reliable digital experiences.
+
+---
+
+## <code>03</code> — BUILT WITH PURPOSE
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**FRONTEND**
+
+React.js and Tailwind CSS power the portfolio's component-based interface and styling.
+
+</td>
+<td width="50%" valign="top">
+
+**CONTACT**
+
+EmailJS integration supports contact form submissions when configured.
+
+</td>
+</tr>
+</table>
+
+---
+
+## <code>04</code> — RUN LOCALLY
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/ankitkushwaha-ank/Kali
+cd Kali
+npm install
+npm start
 ```
 
-NEXT_PUBLIC_USER_ID = 'YOUR_USER_ID'
-NEXT_PUBLIC_TEMPLATE_ID = 'template_884mtzv'
-NEXT_PUBLIC_SERVICE_ID = 'YOUR_SERVICE_ID'
+For Create React App, visit [http://localhost:3000](http://localhost:3000).
 
+Build for production:
+
+```bash
+npm run build
 ```
 
-into it. Replace \*your user id and your service ID with your values in your EmailJS service.
+<sub>Verify the available scripts in `package.json` before running these commands.</sub>
 
-## This project was made using Create React App! Here is the scripts that u can run.
+---
 
-### `npm start`
+<div align="center">
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### EXPLORE THE LIVE PORTFOLIO
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<a href="https://portfolio-kali.vercel.app/">
+  <strong>portfolio-kali.vercel.app ↗</strong>
+</a>
 
-### `npm run build`
+<br /><br />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<sub>DESIGNED AROUND CODE. INSPIRED BY CYBERSECURITY.</sub>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributiors who wants to make this website better can make contribution,which will be **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Added some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-
-![Screenshot (371)](./public/images/screenshots/portfolio-ss1.png)
-![Screenshot (372)](./public/images/screenshots/portfolio-ss2.png)
-![Screenshot (373)](./public/images/screenshots/portfolio-ss3.png)
+</div>
